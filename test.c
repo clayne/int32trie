@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "uint32trie.h"
+#include "int32trie.h"
 
 static uint32_t
 triple32(uint32_t x)
@@ -14,29 +14,29 @@ triple32(uint32_t x)
 int
 main(void)
 {
-    struct uint32trie t[] = {{0, 0, 0}};
+    struct int32trie t[] = {{0, 0, 0}};
     for (int j = 0; j < 16; j++) {
         uint32_t k = triple32(-j);
         for (long i = 0; i < 1L<<20; i++) {
-            trie_put(t, triple32(i^k), 1 + i%2);
+            int32trie_put(t, triple32(i^k), 1 + i%2);
         }
 
         for (long i = 0; i < 1L<<20; i++) {
-            if (trie_get(t, triple32(i^k)) != 1 + i%2) {
+            if (int32trie_get(t, triple32(i^k)) != 1 + i%2) {
                 printf("FAIL %08lx != %ld\n", (long)triple32(i), 1 + i%2);
-                trie_free(t);
+                int32trie_free(t);
                 return 1;
             }
         }
 
         for (long i = 1L<<20; i < 1L<<21; i++) {
-            if (trie_get(t, triple32(i))) {
+            if (int32trie_get(t, triple32(i))) {
                 printf("FAIL %08lx != 0\n", (long)triple32(i));
-                trie_free(t);
+                int32trie_free(t);
                 return 1;
             }
         }
-        trie_free(t);
+        int32trie_free(t);
     }
     puts("PASS");
     return 0;

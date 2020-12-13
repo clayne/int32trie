@@ -2,10 +2,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include "uint32trie.h"
+#include "int32trie.h"
 
 static uint32_t
-trie_new(struct uint32trie *t)
+int32trie_new(struct int32trie *t)
 {
     if (t->len == t->cap) {
         uint32_t cap = t->cap ? t->cap *= 2: 16;
@@ -25,7 +25,7 @@ trie_new(struct uint32trie *t)
 }
 
 int
-trie_get(const struct uint32trie *t, int32_t x)
+int32trie_get(const struct int32trie *t, int32_t x)
 {
     if (!t->len) return 0;
     uint32_t u = x;
@@ -39,9 +39,9 @@ trie_get(const struct uint32trie *t, int32_t x)
 }
 
 int
-trie_put(struct uint32trie *t, int32_t x, int value)
+int32trie_put(struct int32trie *t, int32_t x, int value)
 {
-    if (!t->len && trie_new(t)) {
+    if (!t->len && int32trie_new(t)) {
         return 0;
     }
     uint32_t u = x;
@@ -50,7 +50,7 @@ trie_put(struct uint32trie *t, int32_t x, int value)
         int v = u >> (i*4) & 0xf;
         uint32_t m = t->nodes[n].child[v];
         if (!m) {
-            m = trie_new(t);
+            m = int32trie_new(t);
             if (m == (uint32_t)-1) {
                 return 0;
             }
@@ -63,7 +63,7 @@ trie_put(struct uint32trie *t, int32_t x, int value)
 }
 
 void
-trie_free(struct uint32trie *t)
+int32trie_free(struct int32trie *t)
 {
     free(t->nodes);
     t->cap = t->len = 0;

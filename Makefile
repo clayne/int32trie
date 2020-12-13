@@ -6,5 +6,5 @@ LDLIBS  =
 check: test
 	./test
 
-test: test.c uint32trie.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ test.c uint32trie.c $(LDLIBS)
+test: test.c int32trie.c int32trie.h
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ test.c int32trie.c $(LDLIBS)
