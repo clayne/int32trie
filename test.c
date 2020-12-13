@@ -18,12 +18,13 @@ main(void)
     for (int j = 0; j < 16; j++) {
         uint32_t k = triple32(-j);
         for (long i = 0; i < 1L<<20; i++) {
-            int32trie_put(t, triple32(i^k), 1 + i%2);
+            int32trie_put(t, triple32(i^k), 1 + i%1000);
         }
 
         for (long i = 0; i < 1L<<20; i++) {
-            if (int32trie_get(t, triple32(i^k)) != 1 + i%2) {
-                printf("FAIL %08lx != %ld\n", (long)triple32(i), 1 + i%2);
+            int expect = 1 + i%1000;
+            if (int32trie_get(t, triple32(i^k)) != expect) {
+                printf("FAIL %08lx != %d\n", (long)triple32(i), expect);
                 int32trie_free(t);
                 return 1;
             }
