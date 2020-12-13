@@ -26,22 +26,19 @@ trie_new(struct uint32trie *t)
 int
 trie_get(const struct uint32trie *t, int32_t x)
 {
-    if (!t->len) return -1;
+    if (!t->len) return 0;
     uint32_t u = x;
     uint32_t n = 0;
     for (int i = 0; i < 8; i++) {
         int v = u >> (i*4) & 0xf;
         n = t->nodes[n].child[v];
-        if (!n) return -1;
+        if (!n) return 0;
     }
-    if (t->nodes[n].flags & TRIE_PRESENT) {
-        return t->nodes[n].flags & TRIE_SET;
-    }
-    return -1;
+    return t->nodes[n].value;
 }
 
 int
-trie_put(struct uint32trie *t, int32_t x, int b)
+trie_put(struct uint32trie *t, int32_t x, int value)
 {
     if (!t->len && trie_new(t)) {
         return 0;
@@ -60,11 +57,7 @@ trie_put(struct uint32trie *t, int32_t x, int b)
         }
         n = m;
     }
-    switch (b) {
-    case -1: t->nodes[n].flags = 0;                       break;
-    case +0: t->nodes[n].flags = TRIE_PRESENT;            break;
-    case +1: t->nodes[n].flags = TRIE_PRESENT | TRIE_SET; break;
-    }
+    t->nodes[n].value = value;
     return 1;
 }
 

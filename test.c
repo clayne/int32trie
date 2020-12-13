@@ -18,19 +18,19 @@ main(void)
     for (int j = 0; j < 16; j++) {
         uint32_t k = triple32(-j);
         for (long i = 0; i < 1L<<20; i++) {
-            trie_put(t, triple32(i^k), i % 2);
+            trie_put(t, triple32(i^k), 1 + i%2);
         }
 
         for (long i = 0; i < 1L<<20; i++) {
-            if (trie_get(t, triple32(i^k)) != i % 2) {
-                printf("FAIL %08lx != %ld\n", (long)triple32(i), i%2);
+            if (trie_get(t, triple32(i^k)) != 1 + i%2) {
+                printf("FAIL %08lx != %ld\n", (long)triple32(i), 1 + i%2);
                 return 1;
             }
         }
 
         for (long i = 1L<<20; i < 1L<<21; i++) {
-            if (trie_get(t, triple32(i)) != -1) {
-                printf("FAIL %08lx != -1\n", (long)triple32(i));
+            if (trie_get(t, triple32(i))) {
+                printf("FAIL %08lx != 0\n", (long)triple32(i));
                 return 1;
             }
         }
