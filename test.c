@@ -16,12 +16,14 @@ main(void)
 {
     struct int32trie t[] = {{0, 0, 0}};
     for (int j = 0; j < 16; j++) {
-        uint32_t k = triple32(-j);
-        for (long i = 0; i < 1L<<20; i++) {
+        long n = 1L << (j + 6);
+        uint32_t k = triple32(-n);
+
+        for (long i = 0; i < n; i++) {
             int32trie_put(t, triple32(i^k), 1 + i%1000);
         }
 
-        for (long i = 0; i < 1L<<20; i++) {
+        for (long i = 0; i < n; i++) {
             int expect = 1 + i%1000;
             if (int32trie_get(t, triple32(i^k)) != expect) {
                 printf("FAIL %08lx != %d\n", (long)triple32(i), expect);
@@ -30,7 +32,7 @@ main(void)
             }
         }
 
-        for (long i = 1L<<20; i < 1L<<21; i++) {
+        for (long i = n; i < n*2; i++) {
             if (int32trie_get(t, triple32(i))) {
                 printf("FAIL %08lx != 0\n", (long)triple32(i));
                 int32trie_reset(t);
@@ -39,7 +41,7 @@ main(void)
         }
 
         double mb = t->len * sizeof(t->nodes[0]) / 1048576.0;
-        printf("trie%3d size = %f MiB\n", j, mb);
+        printf("trie %d\tnodes=%ld\tsize=%.3fMiB\n", j, n, mb);
         int32trie_reset(t);
     }
     puts("PASS");
