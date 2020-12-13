@@ -29,7 +29,7 @@ trie_get(const struct uint32trie *t, int32_t x)
     if (!t->len) return 0;
     uint32_t u = x;
     uint32_t n = 0;
-    for (int i = 0; i < 8; i++) {
+    for (int i = 7; i >= 0; i--) {
         int v = u >> (i*4) & 0xf;
         n = t->nodes[n].child[v];
         if (!n) return 0;
@@ -45,7 +45,7 @@ trie_put(struct uint32trie *t, int32_t x, int value)
     }
     uint32_t u = x;
     uint32_t n = 0;
-    for (int i = 0; i < 8; i++) {
+    for (int i = 7; i >= 0; i--) {
         int v = u >> (i*4) & 0xf;
         uint32_t m = t->nodes[n].child[v];
         if (!m) {
