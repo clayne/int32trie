@@ -24,7 +24,7 @@ int32trie_new(struct int32trie *t)
     return i;
 }
 
-int
+long
 int32trie_get(const struct int32trie *t, int32_t x)
 {
     if (!t->len) return 0;
@@ -39,7 +39,7 @@ int32trie_get(const struct int32trie *t, int32_t x)
 }
 
 int
-int32trie_put(struct int32trie *t, int32_t x, int value)
+int32trie_put(struct int32trie *t, int32_t x, long value)
 {
     if (!t->len && int32trie_new(t)) {
         return 0;
