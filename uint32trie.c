@@ -7,7 +7,7 @@ static uint32_t
 trie_new(struct uint32trie *t)
 {
     if (t->len == t->cap) {
-        uint32_t cap = t->cap ? t->cap *= 2: 2;
+        uint32_t cap = t->cap ? t->cap *= 2: 16;
         if (!cap || !(cap*sizeof(t->nodes[0]))) {
             return -1;
         }
