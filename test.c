@@ -25,7 +25,7 @@ main(void)
             int expect = 1 + i%1000;
             if (int32trie_get(t, triple32(i^k)) != expect) {
                 printf("FAIL %08lx != %d\n", (long)triple32(i), expect);
-                int32trie_free(t);
+                int32trie_reset(t);
                 return 1;
             }
         }
@@ -33,11 +33,14 @@ main(void)
         for (long i = 1L<<20; i < 1L<<21; i++) {
             if (int32trie_get(t, triple32(i))) {
                 printf("FAIL %08lx != 0\n", (long)triple32(i));
-                int32trie_free(t);
+                int32trie_reset(t);
                 return 1;
             }
         }
-        int32trie_free(t);
+
+        double mb = t->len * sizeof(t->nodes[0]) / 1048576.0;
+        printf("trie%3d size = %f MiB\n", j, mb);
+        int32trie_reset(t);
     }
     puts("PASS");
     return 0;

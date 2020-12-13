@@ -20,6 +20,6 @@ int32_t int32trie_get(const struct int32trie *, int32_t k);
 int int32trie_put(struct int32trie *, int32_t k, int32_t v);
 
 // Free all of the trie's resources and reset to zero.
-void int32trie_free(struct int32trie *);
+void int32trie_reset(struct int32trie *);
 
 #endif

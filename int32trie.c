@@ -63,7 +63,7 @@ int32trie_put(struct int32trie *t, int32_t k, int32_t v)
 }
 
 void
-int32trie_free(struct int32trie *t)
+int32trie_reset(struct int32trie *t)
 {
     free(t->nodes);
     t->cap = t->len = 0;
