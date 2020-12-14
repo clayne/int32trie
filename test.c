@@ -32,7 +32,7 @@ visit(int32_t k, int32_t v, void *arg)
     struct visitor *d = arg;
 
     if (k < d->prev) {
-        printf("FAIL %ld < %lld\n", (long)k, d->prev);
+        printf("FAIL %ld < %ld\n", (long)k, (long)d->prev);
         return 1;
     }
 
