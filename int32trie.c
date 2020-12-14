@@ -8,7 +8,7 @@ static uint32_t
 int32trie_new(struct int32trie *t)
 {
     if (t->len == t->cap) {
-        uint32_t cap = t->cap ? t->cap *= 2: 16;
+        uint32_t cap = t->cap ? t->cap *= 2: 8;
         if (!cap || !(cap*sizeof(t->nodes[0]))) {
             return -1;
         }
